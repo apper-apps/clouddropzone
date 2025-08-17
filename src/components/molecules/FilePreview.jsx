@@ -1,6 +1,6 @@
 import ApperIcon from "@/components/ApperIcon";
 import React from "react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/cn";
 const FilePreview = ({ file, size = "sm" }) => {
   const isImage = file.type.startsWith("image/");
   
