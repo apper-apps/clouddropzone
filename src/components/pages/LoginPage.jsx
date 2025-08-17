@@ -6,7 +6,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import ApperIcon from '@/components/ApperIcon';
 import Button from '@/components/atoms/Button';
 import Input from '@/components/atoms/Input';
-import Card from '@/components/atoms/Card';
+import { Card } from '@/components/atoms/Card';
 
 function LoginPage() {
   const { login, isAuthenticated } = useAuth();
