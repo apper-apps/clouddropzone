@@ -1,5 +1,6 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { userService } from '@/services/api/userService';
+import React, { createContext, useContext } from "react";
+import { useSelector } from "react-redux";
+import Error from "@/components/ui/Error";
 
 const AuthContext = createContext();
 
@@ -12,44 +13,22 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+const { user, isAuthenticated, loading } = useSelector((state) => state.user);
 
-  useEffect(() => {
-    // Check for existing session on app load
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      try {
-        setUser(JSON.parse(storedUser));
-      } catch (error) {
-        localStorage.removeItem('user');
-      }
-    }
-    setLoading(false);
-  }, []);
-
-  const login = async (email, password) => {
-    try {
-      const userData = await userService.login(email, password);
-      setUser(userData);
-      localStorage.setItem('user', JSON.stringify(userData));
-      return { success: true, user: userData };
-    } catch (error) {
-      return { success: false, error: error.message };
-    }
+  const login = () => {
+    // Login logic will be handled by Redux actions
   };
 
   const logout = () => {
-    setUser(null);
-    localStorage.removeItem('user');
+    // Logout logic will be handled by Redux actions
   };
 
   const value = {
     user,
-    loading,
+    isAuthenticated: isAuthenticated || !!user,
+    loading: loading || false,
     login,
-    logout,
-    isAuthenticated: !!user
+    logout
   };
 
   return (

@@ -14,20 +14,20 @@ function FileUploadPageWithHeader() {
     setUploadQueue(prev => [...prev, ...newFiles]);
   };
 
-  const handleCancelUpload = (fileId) => {
+const handleCancelUpload = (fileId) => {
     setUploadQueue(prev => prev.filter(file => file.Id !== fileId));
   };
 
-  const handleFileDeleted = (fileId) => {
+const handleFileDeleted = (fileId) => {
     setFiles(prev => prev.filter(file => file.Id !== fileId));
   };
 
-  useEffect(() => {
+useEffect(() => {
     // Move completed uploads from queue to files
-    const completedFiles = uploadQueue.filter(file => file.progress === 100);
+    const completedFiles = uploadQueue.filter(file => file.upload_progress_c === 100);
     if (completedFiles.length > 0) {
       setFiles(prev => [...prev, ...completedFiles]);
-      setUploadQueue(prev => prev.filter(file => file.progress !== 100));
+      setUploadQueue(prev => prev.filter(file => file.upload_progress_c !== 100));
     }
   }, [uploadQueue]);
 

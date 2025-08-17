@@ -12,11 +12,11 @@ const FileUploadPage = () => {
     setUploadQueue(prev => [...newFiles, ...prev]);
   };
 
-  const handleCancelUpload = (fileId) => {
+const handleCancelUpload = (fileId) => {
     setUploadQueue(prev => prev.filter(file => file.Id !== fileId));
   };
 
-  const handleFileDeleted = (fileId) => {
+const handleFileDeleted = (fileId) => {
     // Remove from upload queue if it exists there
     setUploadQueue(prev => prev.filter(file => file.Id !== fileId));
   };

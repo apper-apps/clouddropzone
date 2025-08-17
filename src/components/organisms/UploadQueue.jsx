@@ -5,10 +5,9 @@ import FileUploadProgress from "@/components/molecules/FileUploadProgress";
 const UploadQueue = ({ files, onCancelUpload }) => {
   if (files.length === 0) return null;
 
-  const activeUploads = files.filter(file => file.status === "uploading").length;
-  const completedUploads = files.filter(file => file.status === "completed").length;
-  const failedUploads = files.filter(file => file.status === "error").length;
-
+const activeUploads = files.filter(file => file.status_c === "uploading").length;
+  const completedUploads = files.filter(file => file.status_c === "completed").length;
+  const failedUploads = files.filter(file => file.status_c === "error").length;
   return (
     <motion.div
       initial={{ opacity: 0, height: 0 }}
@@ -42,7 +41,7 @@ const UploadQueue = ({ files, onCancelUpload }) => {
           <AnimatePresence>
             {files.map((file) => (
               <FileUploadProgress
-                key={file.Id}
+key={file.Id}
                 file={file}
                 onCancel={onCancelUpload}
               />

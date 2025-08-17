@@ -43,8 +43,8 @@ function LoginPage() {
     try {
       const result = await login(formData.email, formData.password);
       
-      if (result.success) {
-        toast.success(`Welcome back, ${result.user.name}!`);
+if (result.success) {
+        toast.success(`Welcome back, ${result.user.Name}!`);
         navigate('/', { replace: true });
       } else {
         toast.error(result.error);
@@ -122,7 +122,7 @@ function LoginPage() {
             </Button>
           </form>
 
-          <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+<div className="mt-6 p-4 bg-gray-50 rounded-lg">
             <p className="text-sm text-gray-600 font-medium mb-2">Demo Accounts:</p>
             <div className="space-y-1 text-xs text-gray-500">
               <p><strong>Admin:</strong> admin@example.com / admin123</p>

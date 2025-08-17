@@ -1,33 +1,69 @@
-import usersData from '../mockData/users.json';
-
 class UserService {
   constructor() {
-    this.users = [...usersData];
+    // Initialize ApperClient for user operations
+    const { ApperClient } = window.ApperSDK;
+    this.apperClient = new ApperClient({
+      apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+      apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+    });
   }
 
   async login(email, password) {
-    // Simulate API delay
-    await this.delay(800);
+    try {
+      // Query user table using ApperClient
+      const params = {
+        fields: [
+          { field: { Name: "Name" } },
+          { field: { Name: "email_c" } },
+          { field: { Name: "password_c" } },
+          { field: { Name: "role_c" } }
+        ],
+        where: [
+          {
+            FieldName: "email_c",
+            Operator: "EqualTo",
+            Values: [email]
+          }
+        ]
+      };
 
-    const user = this.users.find(u => u.email === email && u.password === password);
-    
-    if (!user) {
-      throw new Error('Invalid email or password');
+      const response = await this.apperClient.fetchRecords('user_c', params);
+      
+      if (!response.success) {
+        console.error(response.message);
+        throw new Error('Login failed');
+      }
+
+      const users = response.data || [];
+      const user = users.find(u => u.email_c === email && u.password_c === password);
+      
+      if (!user) {
+        throw new Error('Invalid email or password');
+      }
+
+      // Return user without password
+      const { password_c: _, ...userWithoutPassword } = user;
+      return userWithoutPassword;
+    } catch (error) {
+      if (error?.response?.data?.message) {
+        console.error("Error in user login:", error?.response?.data?.message);
+      } else {
+        console.error(error.message);
+      }
+      throw error;
     }
-
-    // Return user without password
-    const { password: _, ...userWithoutPassword } = user;
-    return userWithoutPassword;
   }
 
   async logout() {
-    // Simulate API delay
-    await this.delay(300);
-    return { success: true };
-  }
-
-  delay(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    try {
+      // Handle logout through ApperUI
+      const { ApperUI } = window.ApperSDK;
+      await ApperUI.logout();
+      return { success: true };
+    } catch (error) {
+      console.error("Logout error:", error.message);
+      throw error;
+    }
   }
 }
 

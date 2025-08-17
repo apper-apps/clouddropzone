@@ -10,7 +10,7 @@ import Empty from "@/components/ui/Empty";
 import fileService from "@/services/api/fileService";
 
 const FileList = ({ uploadedFiles, onFileDeleted }) => {
-  const [files, setFiles] = useState([]);
+const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -19,7 +19,7 @@ const FileList = ({ uploadedFiles, onFileDeleted }) => {
       setError("");
       setLoading(true);
       const data = await fileService.getAll();
-      setFiles(data.filter(file => file.status === "completed"));
+      setFiles(data.filter(file => file.status_c === "completed"));
     } catch (err) {
       setError(err.message);
     } finally {
@@ -32,8 +32,8 @@ const FileList = ({ uploadedFiles, onFileDeleted }) => {
   }, []);
 
   // Update files when new uploads complete
-  useEffect(() => {
-    const completedFiles = uploadedFiles.filter(file => file.status === "completed");
+useEffect(() => {
+    const completedFiles = uploadedFiles.filter(file => file.status_c === "completed");
     if (completedFiles.length > 0) {
       setFiles(prev => {
         const newFiles = completedFiles.filter(
@@ -44,7 +44,7 @@ const FileList = ({ uploadedFiles, onFileDeleted }) => {
     }
   }, [uploadedFiles]);
 
-  const handleDelete = async (fileId) => {
+const handleDelete = async (fileId) => {
     try {
       await fileService.delete(fileId);
       setFiles(prev => prev.filter(file => file.Id !== fileId));
@@ -74,8 +74,8 @@ const FileList = ({ uploadedFiles, onFileDeleted }) => {
     });
   };
 
-  const getTotalSize = () => {
-    return files.reduce((total, file) => total + file.size, 0);
+const getTotalSize = () => {
+    return files.reduce((total, file) => total + file.size_c, 0);
   };
 
   if (loading) return <Loading />;
@@ -117,7 +117,7 @@ const FileList = ({ uploadedFiles, onFileDeleted }) => {
         <AnimatePresence>
           {files.map((file) => (
             <motion.div
-              key={file.Id}
+key={file.Id}
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
@@ -130,19 +130,19 @@ const FileList = ({ uploadedFiles, onFileDeleted }) => {
                   
                   <div className="flex-1 min-w-0">
                     <h4 className="font-medium text-gray-900 truncate mb-1">
-                      {file.name}
+{file.Name}
                     </h4>
                     <p className="text-sm text-gray-500 mb-2">
-                      {formatFileSize(file.size)}
+{formatFileSize(file.size_c)}
                     </p>
-                    <p className="text-xs text-gray-400">
-                      {formatDate(file.uploadedAt)}
+<p className="text-xs text-gray-400">
+                      {formatDate(file.uploaded_at_c)}
                     </p>
                   </div>
                   
                   <Button
                     variant="ghost"
-                    size="sm"
+size="sm"
                     onClick={() => handleDelete(file.Id)}
                     className="text-gray-400 hover:text-red-500 p-1"
                   >

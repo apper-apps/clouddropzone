@@ -24,15 +24,15 @@ function AppHeader() {
             <ApperIcon name="Upload" size={20} className="text-white" />
           </div>
           <div>
-            <h1 className="text-xl font-semibold text-gray-900">File Manager</h1>
-            <p className="text-sm text-gray-500">Welcome back, {user?.name}</p>
+<h1 className="text-xl font-semibold text-gray-900">File Manager</h1>
+            <p className="text-sm text-gray-500">Welcome back, {user?.Name}</p>
           </div>
         </div>
 
         <div className="flex items-center space-x-4">
           <div className="text-right">
-            <p className="text-sm font-medium text-gray-900">{user?.name}</p>
-            <p className="text-xs text-gray-500 capitalize">{user?.role}</p>
+<p className="text-sm font-medium text-gray-900">{user?.Name}</p>
+            <p className="text-xs text-gray-500 capitalize">{user?.role_c}</p>
           </div>
           <Button
             variant="outline"
